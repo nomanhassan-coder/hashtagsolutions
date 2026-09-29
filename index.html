@@ -60,6 +60,83 @@
             overflow: hidden;
         }
 
+        /* Keep media and flex children from creating horizontal overflow. */
+        img, svg, canvas {
+            max-width: 100%;
+        }
+
+        .min-content-0 {
+            min-width: 0;
+        }
+
+        .break-anywhere {
+            overflow-wrap: anywhere;
+        }
+
+        #modal-overlay {
+            overflow-y: auto;
+        }
+
+        #modal-overlay > div {
+            max-height: calc(100dvh - 2rem);
+            overflow-y: auto;
+        }
+
+        @media (max-width: 639px) {
+            #navbar .brand-name {
+                font-size: 1rem;
+            }
+
+            #home {
+                min-height: auto;
+                padding-top: 7rem;
+                padding-bottom: 4rem;
+            }
+
+            #home .hero-orb {
+                width: 16rem;
+                height: 16rem;
+            }
+
+            .section-space {
+                padding-top: 4rem;
+                padding-bottom: 4rem;
+            }
+
+            .contact-row {
+                align-items: flex-start;
+            }
+
+            .contact-row > div:last-child {
+                min-width: 0;
+            }
+
+            .quality-metric {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .tech-filter-btn {
+                flex: 1 1 calc(50% - 0.5rem);
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            .reveal {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
         /* Full-page loading state */
         #page-loader {
             position: fixed;
@@ -207,8 +284,8 @@
                         #
                     </div>
                     <div>
-                        <span class="text-xl font-black tracking-tight text-white group-hover:text-cyan-400 transition-colors">HashTag</span>
-                        <span class="text-xl font-light tracking-tight text-cyan-400">Solutions</span>
+                        <span class="brand-name text-xl font-black tracking-tight text-white group-hover:text-cyan-400 transition-colors">HashTag</span>
+                        <span class="brand-name text-xl font-light tracking-tight text-cyan-400">Solutions</span>
                     </div>
                 </a>
 
@@ -240,7 +317,7 @@
 
                 <!-- Mobile Menu Button -->
                 <div class="md:hidden flex items-center space-x-3">
-                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none p-2">
+                    <button id="mobile-menu-btn" type="button" aria-label="Open navigation menu" aria-controls="mobile-menu" aria-expanded="false" class="text-gray-300 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 rounded-lg p-2">
                         <i class="fa-solid fa-bars text-2xl"></i>
                     </button>
                 </div>
@@ -248,7 +325,7 @@
         </div>
 
         <!-- Mobile Navigation Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-gray-950/95 border-b border-gray-800 px-4 pt-2 pb-6 space-y-3">
+        <div id="mobile-menu" class="hidden md:hidden bg-gray-950/95 border-b border-gray-800 px-4 pt-2 pb-6 space-y-3" aria-label="Mobile navigation">
             <a href="#home" class="block py-2 text-gray-300 hover:text-cyan-400">Home</a>
             <a href="#services" class="block py-2 text-gray-300 hover:text-cyan-400">Services</a>
             <a href="#tech-stack" class="block py-2 text-gray-300 hover:text-cyan-400">Tech Stack</a>
@@ -271,8 +348,8 @@
         <canvas id="hero-canvas" class="absolute inset-0 w-full h-full pointer-events-none z-0"></canvas>
 
         <!-- Glow Orbs -->
-        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none animate-pulse-slow"></div>
-        <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none animate-pulse-slow" style="animation-delay: 2s;"></div>
+        <div class="hero-orb absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none animate-pulse-slow"></div>
+        <div class="hero-orb absolute bottom-1/4 right-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none animate-pulse-slow" style="animation-delay: 2s;"></div>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
             <div class="grid lg:grid-cols-12 gap-12 items-center">
@@ -397,7 +474,7 @@
         </div>
     </section>
 
-    <section id="services" class="py-24 relative bg-gray-950/60 border-t border-gray-900">
+    <section id="services" class="section-space py-24 relative bg-gray-950/60 border-t border-gray-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Section Header -->
             <div class="text-center max-w-3xl mx-auto mb-16 reveal">
@@ -606,7 +683,7 @@
         </div>
     </section>
 
-    <section id="tech-stack" class="py-24 relative bg-gray-950">
+    <section id="tech-stack" class="section-space py-24 relative bg-gray-950">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-3xl mx-auto mb-12 reveal">
                 <h2 class="text-xs font-bold uppercase tracking-widest text-cyan-400 mb-3">Engineered for Perfection</h2>
@@ -616,12 +693,12 @@
 
             <!-- Category Filter Buttons -->
             <div class="flex flex-wrap justify-center gap-3 mb-12 reveal">
-                <button onclick="filterTech('all')" class="tech-filter-btn active px-5 py-2 rounded-full text-xs font-semibold bg-cyan-500 text-white shadow-lg transition-all" data-category="all">All Skills</button>
-                <button onclick="filterTech('frontend')" class="tech-filter-btn px-5 py-2 rounded-full text-xs font-semibold bg-gray-800 text-gray-400 hover:text-white hover:bg-gray-700 transition-all" data-category="frontend">Front-End</button>
-                <button onclick="filterTech('backend')" class="tech-filter-btn px-5 py-2 rounded-full text-xs font-semibold bg-gray-800 text-gray-400 hover:text-white hover:bg-gray-700 transition-all" data-category="backend">Back-End & CMS</button>
-                <button onclick="filterTech('mobile')" class="tech-filter-btn px-5 py-2 rounded-full text-xs font-semibold bg-gray-800 text-gray-400 hover:text-white hover:bg-gray-700 transition-all" data-category="mobile">Mobile</button>
-                <button onclick="filterTech('devops')" class="tech-filter-btn px-5 py-2 rounded-full text-xs font-semibold bg-gray-800 text-gray-400 hover:text-white hover:bg-gray-700 transition-all" data-category="devops">DevOps & Database</button>
-                <button onclick="filterTech('sales')" class="tech-filter-btn px-5 py-2 rounded-full text-xs font-semibold bg-gray-800 text-gray-400 hover:text-white hover:bg-gray-700 transition-all" data-category="sales">LeadGen & Sales</button>
+                <button onclick="filterTech('all')" aria-pressed="true" class="tech-filter-btn active px-5 py-2 rounded-full text-xs font-semibold bg-cyan-500 text-white shadow-lg transition-all" data-category="all">All Skills</button>
+                <button onclick="filterTech('frontend')" aria-pressed="false" class="tech-filter-btn px-5 py-2 rounded-full text-xs font-semibold bg-gray-800 text-gray-400 hover:text-white hover:bg-gray-700 transition-all" data-category="frontend">Front-End</button>
+                <button onclick="filterTech('backend')" aria-pressed="false" class="tech-filter-btn px-5 py-2 rounded-full text-xs font-semibold bg-gray-800 text-gray-400 hover:text-white hover:bg-gray-700 transition-all" data-category="backend">Back-End & CMS</button>
+                <button onclick="filterTech('mobile')" aria-pressed="false" class="tech-filter-btn px-5 py-2 rounded-full text-xs font-semibold bg-gray-800 text-gray-400 hover:text-white hover:bg-gray-700 transition-all" data-category="mobile">Mobile</button>
+                <button onclick="filterTech('devops')" aria-pressed="false" class="tech-filter-btn px-5 py-2 rounded-full text-xs font-semibold bg-gray-800 text-gray-400 hover:text-white hover:bg-gray-700 transition-all" data-category="devops">DevOps & Database</button>
+                <button onclick="filterTech('sales')" aria-pressed="false" class="tech-filter-btn px-5 py-2 rounded-full text-xs font-semibold bg-gray-800 text-gray-400 hover:text-white hover:bg-gray-700 transition-all" data-category="sales">LeadGen & Sales</button>
             </div>
 
             <!-- Tech Icons Grid -->
@@ -740,7 +817,7 @@
         </div>
     </section>
 
-    <section id="about" class="py-24 relative border-t border-gray-900 bg-gray-950/40">
+    <section id="about" class="section-space py-24 relative border-t border-gray-900 bg-gray-950/40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-2 gap-12 items-center">
                 
@@ -780,12 +857,12 @@
                 <!-- Interactive Visual Counter Box -->
                 <div class="glass-card rounded-3xl p-8 border border-gray-800 reveal relative">
                     <div class="space-y-6">
-                        <div class="flex items-center justify-between p-4 rounded-2xl bg-gray-900/80 border border-gray-800">
-                            <div class="flex items-center space-x-4">
+                        <div class="quality-metric flex items-center justify-between gap-3 p-4 rounded-2xl bg-gray-900/80 border border-gray-800">
+                            <div class="flex items-center space-x-4 min-content-0">
                                 <div class="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center text-xl">
                                     <i class="fa-solid fa-code-commit"></i>
                                 </div>
-                                <div>
+                                <div class="min-content-0">
                                     <p class="text-xs text-gray-400">Code Quality Score</p>
                                     <p class="text-xl font-bold text-white">99.4% Clean Tech</p>
                                 </div>
@@ -793,12 +870,12 @@
                             <span class="text-xs text-emerald-400 font-mono"><i class="fa-solid fa-arrow-up"></i> Optimized</span>
                         </div>
 
-                        <div class="flex items-center justify-between p-4 rounded-2xl bg-gray-900/80 border border-gray-800">
-                            <div class="flex items-center space-x-4">
+                        <div class="quality-metric flex items-center justify-between gap-3 p-4 rounded-2xl bg-gray-900/80 border border-gray-800">
+                            <div class="flex items-center space-x-4 min-content-0">
                                 <div class="w-12 h-12 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-xl">
                                     <i class="fa-solid fa-phone"></i>
                                 </div>
-                                <div>
+                                <div class="min-content-0">
                                     <p class="text-xs text-gray-400">Outbound Call Volume</p>
                                     <p class="text-xl font-bold text-white">50K+ Monthly Calls</p>
                                 </div>
@@ -806,12 +883,12 @@
                             <span class="text-xs text-cyan-400 font-mono">Active Pipelines</span>
                         </div>
 
-                        <div class="flex items-center justify-between p-4 rounded-2xl bg-gray-900/80 border border-gray-800">
-                            <div class="flex items-center space-x-4">
+                        <div class="quality-metric flex items-center justify-between gap-3 p-4 rounded-2xl bg-gray-900/80 border border-gray-800">
+                            <div class="flex items-center space-x-4 min-content-0">
                                 <div class="w-12 h-12 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center text-xl">
                                     <i class="fa-solid fa-cloud-arrow-up"></i>
                                 </div>
-                                <div>
+                                <div class="min-content-0">
                                     <p class="text-xs text-gray-400">DevOps Deployment</p>
                                     <p class="text-xl font-bold text-white">Zero Downtime CI/CD</p>
                                 </div>
@@ -825,7 +902,7 @@
         </div>
     </section>
 
-    <section id="contact" class="py-24 relative bg-gray-950">
+    <section id="contact" class="section-space py-24 relative bg-gray-950">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-12 gap-12">
                 
@@ -840,31 +917,31 @@
                     </div>
 
                     <div class="space-y-4">
-                        <div class="flex items-center space-x-4 p-4 rounded-xl glass-card">
+                        <div class="contact-row flex items-center space-x-4 p-4 rounded-xl glass-card">
                             <div class="w-12 h-12 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-lg">
                                 <i class="fa-solid fa-envelope"></i>
                             </div>
-                            <div>
+                            <div class="min-content-0">
                                 <p class="text-xs text-gray-400">Project Inquiries Email</p>
-                                <a href="mailto:contact@hashtagsolutions.com" class="text-sm font-semibold text-white hover:text-cyan-400 transition-colors">contact@hashtagsolutions.com</a>
+                                <a href="mailto:contact@hashtagsolutions.com" class="break-anywhere text-sm font-semibold text-white hover:text-cyan-400 transition-colors">contact@hashtagsolutions.com</a>
                             </div>
                         </div>
 
-                        <div class="flex items-center space-x-4 p-4 rounded-xl glass-card">
+                        <div class="contact-row flex items-center space-x-4 p-4 rounded-xl glass-card">
                             <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-lg">
                                 <i class="fa-solid fa-phone"></i>
                             </div>
-                            <div>
+                            <div class="min-content-0">
                                 <p class="text-xs text-gray-400">Direct Hotline</p>
                                 <a href="tel:+923001234567" class="text-sm font-semibold text-white hover:text-emerald-400 transition-colors">+92 300 1234567</a>
                             </div>
                         </div>
 
-                        <div class="flex items-center space-x-4 p-4 rounded-xl glass-card">
+                        <div class="contact-row flex items-center space-x-4 p-4 rounded-xl glass-card">
                             <div class="w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-lg">
                                 <i class="fa-solid fa-location-dot"></i>
                             </div>
-                            <div>
+                            <div class="min-content-0">
                                 <p class="text-xs text-gray-400">Headquarters</p>
                                 <p class="text-sm font-semibold text-white">HashTag Solutions Tech Park</p>
                             </div>
@@ -1023,17 +1100,29 @@
         const mobileMenu = document.getElementById('mobile-menu');
 
         mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
+            const isOpen = mobileMenu.classList.toggle('hidden') === false;
+            mobileMenuBtn.setAttribute('aria-expanded', String(isOpen));
+            mobileMenuBtn.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+        });
+
+        mobileMenu.querySelectorAll('a, button').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                mobileMenuBtn.setAttribute('aria-label', 'Open navigation menu');
+            });
         });
 
         // 2. Modal Controls
         function openModal() {
             document.getElementById('modal-overlay').classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
         }
 
         function closeModal() {
             document.getElementById('modal-overlay').classList.add('hidden');
             document.getElementById('modal-feedback').classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
         }
 
         function handleModalSubmit(e) {
@@ -1066,6 +1155,7 @@
                     btn.classList.remove('bg-cyan-500', 'text-white');
                     btn.classList.add('bg-gray-800', 'text-gray-400');
                 }
+                btn.setAttribute('aria-pressed', String(btn.getAttribute('data-category') === category));
             });
 
             items.forEach(item => {
@@ -1096,23 +1186,32 @@
 
         // 5. Hero Particle Canvas Animation Background
         const canvas = document.getElementById('hero-canvas');
+        const heroSection = document.getElementById('home');
         const ctx = canvas.getContext('2d');
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
         let particles = [];
         let animationFrameId;
 
         function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+            const { width, height } = heroSection.getBoundingClientRect();
+            canvas.width = Math.round(width * pixelRatio);
+            canvas.height = Math.round(height * pixelRatio);
+            canvas.style.width = `${width}px`;
+            canvas.style.height = `${height}px`;
+            ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
         }
 
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            initParticles();
+        });
 
         class Particle {
             constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
+                this.x = Math.random() * canvas.clientWidth;
+                this.y = Math.random() * canvas.clientHeight;
                 this.vx = (Math.random() - 0.5) * 0.6;
                 this.vy = (Math.random() - 0.5) * 0.6;
                 this.radius = Math.random() * 2 + 1;
@@ -1123,8 +1222,8 @@
                 this.x += this.vx;
                 this.y += this.vy;
 
-                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+                if (this.x < 0 || this.x > canvas.clientWidth) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.clientHeight) this.vy *= -1;
             }
 
             draw() {
@@ -1138,7 +1237,7 @@
 
         function initParticles() {
             particles = [];
-            const particleCount = Math.floor(window.innerWidth / 20);
+            const particleCount = Math.min(55, Math.max(16, Math.floor(heroSection.clientWidth / 24)));
             for (let i = 0; i < particleCount; i++) {
                 particles.push(new Particle());
             }
@@ -1165,7 +1264,7 @@
         }
 
         function animateCanvas() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
             
             particles.forEach(p => {
                 p.update();
@@ -1176,10 +1275,21 @@
             animationFrameId = requestAnimationFrame(animateCanvas);
         }
 
-        window.onload = function() {
+        document.getElementById('modal-overlay').addEventListener('click', event => {
+            if (event.target === event.currentTarget) closeModal();
+        });
+
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape' && !document.getElementById('modal-overlay').classList.contains('hidden')) {
+                closeModal();
+            }
+        });
+
+        window.addEventListener('load', () => {
+            resizeCanvas();
             initParticles();
-            animateCanvas();
-        };
+            if (!prefersReducedMotion.matches) animateCanvas();
+        });
     </script>
 </body>
 </html>
